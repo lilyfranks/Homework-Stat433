@@ -141,12 +141,12 @@ flights3 = flights %>%
   ggplot(aes(x = day)) + 
   geom_point(aes(y = tot_miss_flight), color = "red") +
   geom_point(aes(y = mean_dely), color = "blue") +
-  ylab("Total Missed Flights (Red) & Cancellations (Blue)")
+  ylab("Total Missed Flights (Red) & Delays (Blue)") 
 
 flights3
 ```
 
-![](HW1-rmarkdown_files/figure-gfm/unnamed-chunk-6-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-6-1.png)<!-- -->
 
 **Response:** Flight delays and cancellation do not share a strong
 correlation and do not seem to be related.

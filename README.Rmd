@@ -67,7 +67,7 @@ flights3 = flights %>%
   ggplot(aes(x = day)) + 
   geom_point(aes(y = tot_miss_flight), color = "red") +
   geom_point(aes(y = mean_dely), color = "blue") +
-  ylab("Total Missed Flights (Red) & Cancellations (Blue)")
+  ylab("Total Missed Flights (Red) & Delays (Blue)") 
 
 flights3
 ``` 
