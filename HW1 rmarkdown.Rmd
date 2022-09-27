@@ -1,0 +1,76 @@
+---
+title: "HW 1"
+output: html_document
+date: '2022-09-20'
+author: Lily Franks
+---
+***Setup***
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(dplyr)
+
+library(nycflights13)
+library(ggplot2)
+```
+
+```{r}
+flights
+flights2 = flights
+```
+
+***Question 1:***
+**How many flights have a missing dep_time?** 
+```{r}
+sum(is.na(flights$dep_time))
+```
+**What other variables are missing?**
+```{r}
+names(which(colSums(is.na(flights))>0))
+```
+**What might these rows represent?** Cancelled flights. 
+
+***Question 2:***
+**Currently dep_time and sched_dep_time are convenient to look at, but hard to compute with because they’re not really continuous numbers. Convert them to a more convenient representation of number of minutes since midnight.**
+```{r}
+convert_mins = function(val) {
+  if (!is.na(val)) {
+    hour = as.numeric(substr(val,1,nchar(val)-2)) #the hour
+    min = val - round(val, -2) #the min 
+    return ((hour*60) + min)
+    
+  } 
+  
+  else {
+    next
+    
+  }
+  
+}
+flights$dep_time = convert_mins(flights2$dep_time) 
+flights$sched_dep_time = convert_mins(flights2$sched_dep_time) 
+flights 
+```
+
+
+
+***Question 3:***
+**Look at the number of canceled flights per day. Is there a pattern? Is the proportion of canceled flights related to the average delay? Use multiple dyplr operations, all on one line, concluding with ggplot(aes(x= ,y=)) + geom_point()**
+
+```{r}
+flights3 = flights %>%
+  mutate(miss_flight = case_when((is.na(dep_time) & is.na(arr_time) & is.na(arr_delay) & is.na(tailnum) & is.na(air_time)) ~ 1, TRUE ~ 0)) %>%
+  group_by(day) %>%
+  summarise(tot_miss_flight = sum(miss_flight), mean_dely = mean(dep_delay,na.rm=TRUE)) %>%
+  ggplot(aes(x = day)) + 
+  geom_point(aes(y = tot_miss_flight), color = "red") +
+  geom_point(aes(y = mean_dely), color = "blue") +
+  ylab("Total Missed Flights (Red) & Cancellations (Blue)")
+
+flights3
+``` 
+
+**Response:** Flight delays and cancellation do not share a strong correlation and do not seem to be related. 
+
