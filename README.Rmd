@@ -1,6 +1,6 @@
 ---
 title: "HW 1"
-output: html_document
+output: github_document
 date: '2022-09-20'
 author: Lily Franks
 ---
